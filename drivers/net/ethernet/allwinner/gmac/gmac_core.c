@@ -783,8 +783,11 @@ static void gmac_check_ether_addr(struct gmac_priv *priv)
 				priv->ndev->dev_addr[i] = simple_strtoul(p, &p, 16);
 		}
 
-		if  (!is_valid_ether_addr(priv->ndev->dev_addr))
+		if  (!is_valid_ether_addr(priv->ndev->dev_addr)) {
 			random_ether_addr(priv->ndev->dev_addr);
+			printk(KERN_WARNING "%s: generated random MAC address\n",
+						priv->ndev->name);
+		}
 	}
 	printk(KERN_WARNING "%s: device MAC address %pM\n", priv->ndev->name,
 						   priv->ndev->dev_addr);
